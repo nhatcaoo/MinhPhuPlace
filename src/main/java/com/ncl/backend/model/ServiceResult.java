@@ -6,7 +6,7 @@ public class ServiceResult {
     public String status;
     public static final String SUCCESS = "success";
     public static final String FAIL = "fail";
-    public ServiceResult(Object data, String message, String status) {
+    public ServiceResult(Object data, String status, String message) {
         this.data = data;
         this.message = message;
         this.status = status;

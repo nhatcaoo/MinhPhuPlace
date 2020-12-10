@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @Table(name = "account")
-public class Account {
+public class EmployeeInfo {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -15,12 +15,12 @@ public class Account {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "email", nullable = false)
     private String password;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "type")
+    private String type;
 }
