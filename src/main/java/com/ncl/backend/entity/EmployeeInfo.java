@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "account")
+@Table(name = "employeeInfo")
 public class EmployeeInfo {
     private static final long serialVersionUID = 1L;
 
@@ -19,7 +19,7 @@ public class EmployeeInfo {
     private String name;
 
     @Column(name = "email", nullable = false)
-    private String password;
+    private String email;
 
     @Column(name = "type")
     private String type;

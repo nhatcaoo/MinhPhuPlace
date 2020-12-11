@@ -1,6 +1,7 @@
 package com.ncl.backend.controller.exceptionHandleAPI;
 
 import com.ncl.backend.exception.NotFoundException;
+import com.ncl.backend.exception.NullObjectException;
 import com.ncl.backend.model.ServiceResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,14 @@ public class ApiExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseEntity<ServiceResult> NotFoundException(Exception ex, WebRequest request) {
+        ex.printStackTrace();
+        return new ResponseEntity(new ServiceResult(null, ServiceResult.FAIL, ex.getMessage()), HttpStatus.OK);
+
+    }
+
+    @ExceptionHandler(NullObjectException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ServiceResult> NullObjectException(Exception ex, WebRequest request) {
         ex.printStackTrace();
         return new ResponseEntity(new ServiceResult(null, ServiceResult.FAIL, ex.getMessage()), HttpStatus.OK);
 

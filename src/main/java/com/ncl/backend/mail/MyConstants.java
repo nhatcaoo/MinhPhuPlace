@@ -9,4 +9,5 @@ public class MyConstants {
 
     // And receiver!
     public static final String FRIEND_EMAIL = "chuonglh5798@gmail.com";
+
 }
