@@ -1,13 +1,10 @@
-package com.ncl.backend.mail;
+package com.ncl.backend.common;
 
-public class MyConstants {
+public class MailConstants {
     // Replace with your email here:
     public static final String MY_EMAIL = "nguoi.choi.he.ax@gmail.com";
 
     // Replace password!!
     public static final String MY_PASSWORD = "Anhpr098";
-
-    // And receiver!
-    public static final String FRIEND_EMAIL = "chuonglh5798@gmail.com";
 
 }

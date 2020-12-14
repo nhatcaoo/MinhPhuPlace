@@ -1,23 +1,19 @@
 package com.ncl.backend.service.impl;
 
 import com.ncl.backend.entity.EmployeeInfo;
-import com.ncl.backend.exception.NotFoundException;
 import com.ncl.backend.exception.NullObjectException;
-import com.ncl.backend.mail.MyConstants;
+import com.ncl.backend.common.MailConstants;
 import com.ncl.backend.model.BookingRequest;
 import com.ncl.backend.model.ServiceResult;
 import com.ncl.backend.repository.EmployeeInfoRepository;
 import com.ncl.backend.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -64,7 +60,7 @@ public class MailServiceImpl implements MailService {
                 + "\tService order: " + bookingRequest.getServiceName() +  "\n"
                 + "\tOrder time: " + dtf.format(now);
 
-        helper.setFrom(MyConstants.MY_EMAIL);
+        helper.setFrom(MailConstants.MY_EMAIL);
         helper.setSubject("Service request!");
         helper.setText(text);
 
