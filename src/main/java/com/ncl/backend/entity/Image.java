@@ -16,17 +16,11 @@ public class Image implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "title", nullable = true)
-    private String title;
-
     @Column(name = "brief", nullable = true)
     private String brief;
 
-    @Column(name = "short_description", nullable = true)
-    private String shortDescription;
-
-    @Column(name = "description", nullable = true)
-    private String description;
+    @Column(name = "img", nullable = false)
+    private String img;
 
     @Column(name = "type", nullable = true)
     private String type;

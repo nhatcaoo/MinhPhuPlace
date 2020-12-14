@@ -48,9 +48,7 @@ public class MailServiceImpl implements MailService {
             toEmail[count] = employeeInfo.getEmail();
             count++;
         }
-
         helper.setTo(toEmail);
-
         // Mail Content
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
         LocalDateTime now = LocalDateTime.now();
