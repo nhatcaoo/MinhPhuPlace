@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -32,6 +33,9 @@ public class Post implements Serializable {
 
     @Column(name = "type", nullable = true)
     private String type;
+
+    @OneToMany(mappedBy = "post")
+    private List<Image> images;
 
 
 }

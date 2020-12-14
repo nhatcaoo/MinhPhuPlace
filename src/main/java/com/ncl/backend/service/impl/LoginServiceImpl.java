@@ -1,5 +1,6 @@
 package com.ncl.backend.service.impl;
 
+import com.ncl.backend.common.Constant;
 import com.ncl.backend.entity.Account;
 import com.ncl.backend.exception.NotFoundException;
 import com.ncl.backend.model.LoginModel;
@@ -20,9 +21,9 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public ServiceResult changePassword(LoginModel loginModel) throws NotFoundException {
         if (!accountRepository.existsById(loginModel.getId()))
-            throw new NotFoundException("Tài khoản không tồn tại");
+            throw new NotFoundException(Constant.ACCOUNT_NOT_FOUND);
         Account account = accountRepository.findById(loginModel.getId()).get();
         account.setPassword(passwordEncoder.encode(loginModel.getPassword()));
-        return new ServiceResult(account,ServiceResult.SUCCESS, "Tạo tài khoản thành công");
+        return new ServiceResult(account,ServiceResult.SUCCESS, Constant.ACCOUNT_CREATE_SUCCESSFUL);
     }
 }
