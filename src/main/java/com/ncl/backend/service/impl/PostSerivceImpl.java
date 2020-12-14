@@ -9,6 +9,8 @@ import com.ncl.backend.repository.PostRepository;
 import com.ncl.backend.service.PostSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,18 +22,14 @@ public class PostSerivceImpl implements PostSerivce {
 
     @Override
     public ServiceResult getAllServicePost() {
-        List<Post> postList = postRepository.findAllByType(Constant.SERVICE);
-        List<PostServiceDTO> postServiceDTOList = null;
-        for (Post p : postList) {
-            String img = Constant.EMPTY;
-            List<Image> coverImages = p.getImages().stream().filter(i -> i.getType().equals(Constant.COVER_IMAGE))
-                    .collect(Collectors.toList());
-            if (!coverImages.isEmpty())
-                img = coverImages.get(0).getImg();
-            PostServiceDTO postReturned = new PostServiceDTO(p, img);
-            postServiceDTOList.add(postReturned);
-        }
-        return new ServiceResult(postServiceDTOList, ServiceResult.SUCCESS, Constant.EMPTY);
+        List<Post> postList = postRepository.findAllByTypeContains(Constant.SERVICE);
+        return getServiceResult(postList);
+    }
+
+    @Override
+    public ServiceResult getHomepageServicePost() {
+        List<Post> postList = postRepository.findAllByTypeContains(Constant.HOMEPAGE_SERVICE);
+        return getServiceResult(postList);
     }
 
     @Override
@@ -55,6 +53,27 @@ public class PostSerivceImpl implements PostSerivce {
         if (!postOptional.isPresent()) throw new NotFoundException(Constant.POST_NOT_FOUND);
         Post postFinal = postRepository.saveAndFlush(postOptional.get());
         return new ServiceResult(postFinal, ServiceResult.SUCCESS, Constant.EDIT_SUCCESS);
+    }
+
+    @Override
+    public ServiceResult getAllEvent() {
+        List<Post> postList = postRepository.findAllByType(Constant.EVENT);
+        return getServiceResult(postList);
+
+    }
+
+    private ServiceResult getServiceResult(List<Post> postList) {
+        List<PostServiceDTO> postServiceDTOList = new ArrayList<>();
+        for (Post p : postList) {
+            String img = Constant.EMPTY;
+            List<Image> coverImages = p.getImages().stream().filter(i -> i.getType().equals(Constant.COVER_IMAGE))
+                    .collect(Collectors.toList());
+            if (!coverImages.isEmpty())
+                img = coverImages.get(0).getImg();
+            PostServiceDTO postReturned = new PostServiceDTO(p, img);
+            postServiceDTOList.add(postReturned);
+        }
+        return new ServiceResult(postServiceDTOList, ServiceResult.SUCCESS, Constant.EMPTY);
     }
 
 }

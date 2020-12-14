@@ -6,8 +6,9 @@ import com.ncl.backend.model.ServiceResult;
 
 public interface PostSerivce {
     ServiceResult getAllServicePost();
+    ServiceResult getHomepageServicePost();
     ServiceResult getOnePost(Long id) throws NotFoundException;
     ServiceResult createPost(Post post);
     ServiceResult editPost(Post post) throws NotFoundException;
-
+    ServiceResult getAllEvent();
 }

@@ -15,17 +15,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping(value = {"/api/v1"})
 public class Login {
     private final Logger logger = LoggerFactory.getLogger(Login.class);
     @Autowired
     private LoginService loginService;
 
-    @PostMapping("/change-password")
-    public ResponseEntity<ServiceResult> login(
+    @PostMapping("/admin/change-password")
+    public ResponseEntity<ServiceResult> changePassword(
             @RequestBody LoginModel loginModel) throws NotFoundException {
         logger.info("login");
         return new ResponseEntity(loginService.changePassword(loginModel), HttpStatus.OK);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<ServiceResult> login(
+            @RequestBody LoginModel loginModel) {
+        logger.info("login");
+        return new ResponseEntity(loginService.login(loginModel.getUsername(), loginModel.getPassword()), HttpStatus.OK);
+    }
 }

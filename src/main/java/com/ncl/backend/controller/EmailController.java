@@ -20,16 +20,14 @@ import javax.imageio.spi.ServiceRegistry;
 import javax.mail.MessagingException;
 
 @Controller
-@RequestMapping("mail")
+@RequestMapping(value = {"/api/v1"})
 public class EmailController {
     @Autowired
     public MailService mailService;
 
     @ResponseBody
-    @PostMapping("/send-email") //post get put delete
+    @PostMapping("/all/send-email") //post get put delete
     public ResponseEntity sendSimpleEmail(@RequestBody BookingRequest bookingRequest) throws NullObjectException, MessagingException {
-
         return new ResponseEntity( mailService.sendDemoMail(bookingRequest), HttpStatus.OK);
-
     }
 }

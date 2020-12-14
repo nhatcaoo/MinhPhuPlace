@@ -10,34 +10,44 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("post")
+@RequestMapping(value = {"/api/v1"})
 public class PostController {
     @Autowired
     private PostSerivce postSerivce;
 
     @ResponseBody
-    @GetMapping("/get-all-service") //post get put delete
+    @GetMapping("/all/get-all-service") //post get put delete
     public ResponseEntity getAllService() {
         return new ResponseEntity(postSerivce.getAllServicePost(), HttpStatus.OK);
     }
 
     @ResponseBody
-    @GetMapping("/get-one-post") //post get put delete
+    @GetMapping("/all/get-one-post") //post get put delete
     public ResponseEntity getOnePost(@PathVariable(name = "id") Long id) throws NotFoundException {
         return new ResponseEntity(postSerivce.getOnePost(id), HttpStatus.OK);
     }
 
     @ResponseBody
-    @PostMapping("/create-post") //post get put delete
+    @PostMapping("/admin/create-post") //post get put delete
     public ResponseEntity createPost(@RequestBody Post post) {
         return new ResponseEntity(postSerivce.createPost(post), HttpStatus.OK);
     }
 
     @ResponseBody
-    @PutMapping("/edit-post") //post get put delete
+    @PutMapping("/admin/edit-post") //post get put delete
     public ResponseEntity editPost(@RequestBody Post post) throws NotFoundException {
         return new ResponseEntity(postSerivce.editPost(post), HttpStatus.OK);
     }
 
+    @ResponseBody
+    @GetMapping("/all/get-all-event") //post get put delete
+    public ResponseEntity getAllEvent() {
+        return new ResponseEntity(postSerivce.getAllEvent(), HttpStatus.OK);
+    }
 
+    @ResponseBody
+    @GetMapping("/all/get-all-homepage-service") //post get put delete
+    public ResponseEntity getAllHomepageService() {
+        return new ResponseEntity(postSerivce.getHomepageServicePost(), HttpStatus.OK);
+    }
 }

@@ -22,19 +22,19 @@ public class Post implements Serializable {
     @Column(name = "title", nullable = true)
     private String title;
 
-    @Column(name = "brief", nullable = true)
+    @Column(name = "brief", nullable = true, columnDefinition = "TEXT")
     private String brief;
 
-    @Column(name = "short_description", nullable = true)
+    @Column(name = "short_description", nullable = true, columnDefinition = "TEXT")
     private String shortDescription;
 
-    @Column(name = "description", nullable = true)
+    @Column(name = "description", nullable = true, length = 100000)
     private String description;
 
     @Column(name = "type", nullable = true)
     private String type;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<Image> images;
 
 
