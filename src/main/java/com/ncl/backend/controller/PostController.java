@@ -2,6 +2,7 @@ package com.ncl.backend.controller;
 
 import com.ncl.backend.entity.Post;
 import com.ncl.backend.exception.NotFoundException;
+import com.ncl.backend.model.PostCreatedModel;
 import com.ncl.backend.service.PostSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,13 +30,13 @@ public class PostController {
 
     @ResponseBody
     @PostMapping("/admin/create-post") //post get put delete
-    public ResponseEntity createPost(@RequestBody Post post) {
+    public ResponseEntity createPost(@RequestBody PostCreatedModel post) {
         return new ResponseEntity(postSerivce.createPost(post), HttpStatus.OK);
     }
 
     @ResponseBody
     @PutMapping("/admin/edit-post") //post get put delete
-    public ResponseEntity editPost(@RequestBody Post post) throws NotFoundException {
+    public ResponseEntity editPost(@RequestBody PostCreatedModel post) throws NotFoundException {
         return new ResponseEntity(postSerivce.editPost(post), HttpStatus.OK);
     }
 

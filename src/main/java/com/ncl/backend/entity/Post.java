@@ -34,8 +34,4 @@ public class Post implements Serializable {
     @Column(name = "type", nullable = true)
     private String type;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-    private List<Image> images;
-
-
 }
