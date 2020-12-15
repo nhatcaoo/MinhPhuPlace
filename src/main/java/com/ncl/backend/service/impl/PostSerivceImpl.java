@@ -79,7 +79,6 @@ public class PostSerivceImpl implements PostSerivce {
     public ServiceResult getAllEvent() {
         List<Post> postList = postRepository.findAllByType(Constant.EVENT);
         return getServiceResult(postList);
-
     }
 
     @Autowired
