@@ -8,4 +8,7 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByType(String type);
+    List<Post> findAllByTypeContains(String type);
+
+
 }
