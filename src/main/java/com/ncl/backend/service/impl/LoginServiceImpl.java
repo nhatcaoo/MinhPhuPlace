@@ -36,8 +36,8 @@ public class LoginServiceImpl implements LoginService {
         if (!accountRepository.existsById(loginModel.getId()))
             throw new NotFoundException(Constant.ACCOUNT_NOT_FOUND);
         Account account = accountRepository.findById(loginModel.getId()).get();
-     //   account.setPassword(passwordEncoder.encode(loginModel.getPassword()));
-        return new ServiceResult(null,ServiceResult.SUCCESS, Constant.ACCOUNT_CREATE_SUCCESSFUL);
+        //   account.setPassword(passwordEncoder.encode(loginModel.getPassword()));
+        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.ACCOUNT_CREATE_SUCCESSFUL);
     }
 
     @Override
@@ -59,7 +59,8 @@ public class LoginServiceImpl implements LoginService {
                     result.setData("");
                 } else {
                     logger.info("Found user, start get nescessary info");
-                    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+                    Authentication authentication = authenticationManager
+                            .authenticate(new UsernamePasswordAuthenticationToken(username, password));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                     TokenObject tokenObject = jwtService.signToken(user);
                     tokenObject.setFirstObject(null); //add dashboard information later
@@ -84,5 +85,11 @@ public class LoginServiceImpl implements LoginService {
         }
         logger.info("End login");
         return result;
+    }
+
+    @Override
+    public ServiceResult register(String username, String password) {
+
+        return null;
     }
 }
