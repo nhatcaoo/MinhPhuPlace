@@ -29,6 +29,8 @@ public class Constant {
     public static final String API_PREFIX = "/api/v1";
     public static final String FORBIDDEN_MESSAGE = "Từ chối truy cập! Bạn không có quyền dùng tính năng này";
     public static final String TOKEN_PREFIX = "Bearer ";
-
-
+    //Banner
+    public static final String ADD_SUCCESS = "Tạo banner thành công!";
+    public static final String BANNER_NOT_FOUND = "Banner không tồn tại!";
+    public static final String DELETE_SUCCESS = "Xóa thành công!";
 }

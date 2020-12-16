@@ -1,6 +1,6 @@
 package com.ncl.backend.config;
 
-import com.ncl.backend.mail.MyConstants;
+import com.ncl.backend.common.MailConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,8 +16,8 @@ public class MailConfig {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername(MyConstants.MY_EMAIL);
-        mailSender.setPassword(MyConstants.MY_PASSWORD);
+        mailSender.setUsername(MailConstants.MY_EMAIL);
+        mailSender.setPassword(MailConstants.MY_PASSWORD);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
