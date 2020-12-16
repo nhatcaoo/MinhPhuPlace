@@ -1,4 +1,4 @@
-package com.ncl.backend.service;
+package com.ncl.backend.service.impl;
 
 import com.ncl.backend.entity.Account;
 import com.ncl.backend.model.CustomUserDetail;

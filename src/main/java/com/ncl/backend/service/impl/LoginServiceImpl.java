@@ -8,7 +8,6 @@ import com.ncl.backend.model.LoginModel;
 import com.ncl.backend.model.ServiceResult;
 import com.ncl.backend.model.TokenObject;
 import com.ncl.backend.repository.AccountRepository;
-import com.ncl.backend.service.JWTService;
 import com.ncl.backend.service.LoginService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
