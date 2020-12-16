@@ -49,12 +49,13 @@ public class PostSerivceImpl implements PostSerivce {
 
     @Override
     public ServiceResult createPost(PostCreatedModel postCreatedModel) {
-        postRepository.save(postCreatedModel.getPost());
+        Post p =  postRepository.saveAndFlush(postCreatedModel.getPost());
         List<Image> listImage = postCreatedModel.getList();
-        int len = listImage.size();
         listImage.get(0).setType(Constant.COVER_IMAGE);
-        for (int i = 0; i < len; i++) {
-            imageRepository.save(listImage.get(i));
+        for (Image i : listImage) {
+            p.setId(p.getId());
+            i.setPost(p);
+            imageRepository.save(i);
         }
         return new ServiceResult(postRepository.findAll(), ServiceResult.SUCCESS, Constant.CREATE_SUCCESS);
     }
@@ -70,6 +71,9 @@ public class PostSerivceImpl implements PostSerivce {
         postRepository.save(postCreatedModel.getPost());
         List<Image> listImage = postCreatedModel.getList();
         for (Image i : listImage) {
+            Post p = new Post();
+            p.setId(postId);
+            i.setPost(p);
             imageRepository.save(i);
         }
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.EDIT_SUCCESS);

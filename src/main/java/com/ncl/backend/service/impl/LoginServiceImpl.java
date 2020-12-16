@@ -96,6 +96,6 @@ public class LoginServiceImpl implements LoginService {
         account.setUsername(username);
         account.setPassword(securityConfiguration.passwordEncoder().encode(password));
         accountRepository.save(account);
-        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.ACCOUNT_CHANGE_SUCCESSFUL);
+        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.ACCOUNT_CREATE_SUCCESSFUL);
     }
 }

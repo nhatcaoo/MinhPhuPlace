@@ -2,7 +2,7 @@ package com.ncl.backend.common;
 
 public class Constant {
     public static final String SERVICE = "SERVICE";
-    public static final String HOMEPAGE_SERVICE = "SERVICE";
+    public static final String HOMEPAGE_SERVICE = "HOMEPAGE_POST";
     public static final String EVENT = "EVENT";
     public static final String COVER_IMAGE = "COVER";
     public static final String POST_NOT_FOUND = "Bài viết không tồn tại";

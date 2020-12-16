@@ -1,5 +1,6 @@
 package com.ncl.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class Image implements Serializable {
     private String type;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
     private Post post;
 
