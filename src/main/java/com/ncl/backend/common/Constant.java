@@ -37,4 +37,5 @@ public class Constant {
     public static final String EMPLOYEE_NOT_FOUND = "Nhân viên không tồn tại!";
     public static final String CHANGE_MAIL_SUCCESS = "Thay đổi email nhân viên thành công!";
     public static final String ADD_EMPLOYEE_SUCCESS = "Thêm nhân viên thành công!";
+    public static final String EMPLOYEE_EXISTED = "Nhân viên đã tồn tại!";
 }

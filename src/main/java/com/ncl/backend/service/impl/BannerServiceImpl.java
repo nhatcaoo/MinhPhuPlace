@@ -41,7 +41,10 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
-    public ServiceResult deleteBanner(Long id) {
+    public ServiceResult deleteBanner(Long id) throws NotFoundException{
+        if(!bannerRepository.existsById(id)){
+            throw new NotFoundException(Constant.BANNER_NOT_FOUND);
+        }
         bannerRepository.deleteById(id);
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);
     }
