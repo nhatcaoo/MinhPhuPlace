@@ -1,6 +1,5 @@
 package com.ncl.backend.entity;
 
-import com.ncl.backend.entity.Image;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,7 @@ public class Banner implements Serializable {
     private Long id;
 
     @Column(name = "image", nullable = false)
-    private Image image;
+    private String image;
 
     @Column(name = "title", nullable = true)
     private String title;

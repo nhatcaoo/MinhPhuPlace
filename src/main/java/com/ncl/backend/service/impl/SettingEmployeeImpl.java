@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class SettingEmployeeImpl implements SettingEmployeeService {
     @Autowired
-    EmployeeInfoRepository employeeInfoRepository;
+    private EmployeeInfoRepository employeeInfoRepository;
 
     @Override
     public ServiceResult changeMail(EmployeeInfo employeeInfo) throws NotFoundException {
@@ -41,6 +41,7 @@ public class SettingEmployeeImpl implements SettingEmployeeService {
         if (employeeInfoRepository.existsById(employeeInfo.getId())) {
             throw new NotFoundException(Constant.EMPLOYEE_NOT_FOUND);
         }
+        employeeInfoRepository.deleteById(employeeInfo.getId());
         employeeInfoRepository.save(employeeInfo);
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.EDIT_SUCCESS);
     }

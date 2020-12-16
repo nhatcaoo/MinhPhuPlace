@@ -5,7 +5,7 @@ import com.ncl.backend.common.Constant;
 import com.ncl.backend.entity.Account;
 import com.ncl.backend.model.CustomUserDetail;
 import com.ncl.backend.model.ServiceResult;
-import com.ncl.backend.service.impl.JWTService;
+import com.ncl.backend.service.JWTService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

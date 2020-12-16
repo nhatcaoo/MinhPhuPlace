@@ -1,4 +1,4 @@
-package com.ncl.backend.service.impl;
+package com.ncl.backend.service;
 
 import com.ncl.backend.common.Constant;
 import com.ncl.backend.entity.Account;
