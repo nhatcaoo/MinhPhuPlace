@@ -3,6 +3,7 @@ package com.ncl.backend.service.impl;
 import com.ncl.backend.common.Constant;
 import com.ncl.backend.entity.Account;
 import com.ncl.backend.exception.NotFoundException;
+import com.ncl.backend.jwt.SecurityConfiguration;
 import com.ncl.backend.model.LoginModel;
 import com.ncl.backend.model.ServiceResult;
 import com.ncl.backend.model.TokenObject;
@@ -30,14 +31,16 @@ public class LoginServiceImpl implements LoginService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JWTService jwtService;
+    @Autowired
+    private SecurityConfiguration securityConfiguration;
 
     @Override
     public ServiceResult changePassword(LoginModel loginModel) throws NotFoundException {
         if (!accountRepository.existsById(loginModel.getId()))
             throw new NotFoundException(Constant.ACCOUNT_NOT_FOUND);
         Account account = accountRepository.findById(loginModel.getId()).get();
-        //   account.setPassword(passwordEncoder.encode(loginModel.getPassword()));
-        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.ACCOUNT_CREATE_SUCCESSFUL);
+        account.setPassword(securityConfiguration.passwordEncoder().encode(loginModel.getPassword()));
+        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.ACCOUNT_CHANGE_SUCCESSFUL);
     }
 
     @Override
@@ -89,7 +92,10 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public ServiceResult register(String username, String password) {
-
-        return null;
+        Account account = new Account();
+        account.setUsername(username);
+        account.setPassword(securityConfiguration.passwordEncoder().encode(password));
+        accountRepository.save(account);
+        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.ACCOUNT_CHANGE_SUCCESSFUL);
     }
 }

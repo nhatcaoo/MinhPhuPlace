@@ -38,6 +38,6 @@ public class Login {
     public ResponseEntity<ServiceResult> register(
             @RequestBody LoginModel loginModel) {
         logger.info("login");
-        return new ResponseEntity(loginService.login(loginModel.getUsername(), loginModel.getPassword()), HttpStatus.OK);
+        return new ResponseEntity(loginService.register(loginModel.getUsername(), loginModel.getPassword()), HttpStatus.OK);
     }
 }

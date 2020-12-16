@@ -11,6 +11,8 @@ public class Constant {
     public static final String EMPTY = "";
     public static final String ACCOUNT_NOT_FOUND = "Tài khoản không tồn tại";
     public static final String ACCOUNT_CREATE_SUCCESSFUL = "Tạo tài khoản thành công";
+    public static final String ACCOUNT_CHANGE_SUCCESSFUL = "Đổi mật khẩu thành công";
+
     //JWT
     public static final String EMPTY_TOKEN = "Xin hãy gửi token để tiếp tục";
     public static final String EXPIRED_TOKEN = "Token đã hết hạn";
