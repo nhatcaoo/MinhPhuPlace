@@ -23,7 +23,7 @@ public class PostController {
     }
 
     @ResponseBody
-    @GetMapping("/all/get-one-post") //post get put delete
+    @GetMapping("/all/get-one-post/{id}") //post get put delete
     public ResponseEntity getOnePost(@PathVariable(name = "id") Long id) throws NotFoundException {
         return new ResponseEntity(postSerivce.getOnePost(id), HttpStatus.OK);
     }

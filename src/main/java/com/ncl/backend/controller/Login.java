@@ -34,4 +34,10 @@ public class Login {
         logger.info("login");
         return new ResponseEntity(loginService.login(loginModel.getUsername(), loginModel.getPassword()), HttpStatus.OK);
     }
+    @PostMapping("/all/register")
+    public ResponseEntity<ServiceResult> register(
+            @RequestBody LoginModel loginModel) {
+        logger.info("login");
+        return new ResponseEntity(loginService.register(loginModel.getUsername(), loginModel.getPassword()), HttpStatus.OK);
+    }
 }
