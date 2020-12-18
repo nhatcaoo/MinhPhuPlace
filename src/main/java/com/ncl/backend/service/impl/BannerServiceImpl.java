@@ -16,13 +16,13 @@ import java.util.List;
 @Service
 public class BannerServiceImpl implements BannerService {
     @Autowired
-    BannerRepository bannerRepository;
+    private BannerRepository bannerRepository;
 
 
     @Override
     public ServiceResult getAllBanner() {
         List<Banner> bannersList = bannerRepository.findAll();
-        return new ServiceResult(bannersList, ServiceResult.SUCCESS,Constant.EMPTY);
+        return new ServiceResult(bannersList, ServiceResult.SUCCESS, Constant.EMPTY);
     }
 
     @Override
@@ -33,15 +33,18 @@ public class BannerServiceImpl implements BannerService {
 
     @Override
     public ServiceResult editBanner(Banner banner) throws NotFoundException {
-        if(!bannerRepository.existsById(banner.getId())){
+        if (!bannerRepository.existsById(banner.getId())) {
             throw new NotFoundException(Constant.BANNER_NOT_FOUND);
         }
         bannerRepository.save(banner);
-        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.EDIT_SUCCESS);
+        return new ServiceResult(bannerRepository.findAll(), ServiceResult.SUCCESS, Constant.EDIT_SUCCESS);
     }
 
     @Override
-    public ServiceResult deleteBanner(Long id) {
+    public ServiceResult deleteBanner(Long id) throws NotFoundException {
+        if (!bannerRepository.existsById(id)) {
+            throw new NotFoundException(Constant.BANNER_NOT_FOUND);
+        }
         bannerRepository.deleteById(id);
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);
     }

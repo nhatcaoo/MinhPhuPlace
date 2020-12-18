@@ -1,13 +1,13 @@
 package com.ncl.backend.service.impl;
 
 import com.ncl.backend.common.Constant;
-import com.ncl.backend.entity.Image;
 import com.ncl.backend.entity.Post;
+import com.ncl.backend.entity.PostImage;
 import com.ncl.backend.exception.NotFoundException;
 import com.ncl.backend.model.PostCreatedModel;
 import com.ncl.backend.model.PostServiceDTO;
 import com.ncl.backend.model.ServiceResult;
-import com.ncl.backend.repository.ImageRepository;
+import com.ncl.backend.repository.PostImageRepository;
 import com.ncl.backend.repository.PostRepository;
 import com.ncl.backend.service.PostSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PostSerivceImpl implements PostSerivce {
@@ -32,7 +30,7 @@ public class PostSerivceImpl implements PostSerivce {
 
     @Override
     public ServiceResult getHomepageServicePost() {
-        List<Post> postList = postRepository.findAllByTypeContains(Constant.HOMEPAGE_SERVICE);
+        List<Post> postList = postRepository.findAllByTypeContains(Constant.POST_HOMEPAGE_SERVICE);
         return getServiceResult(postList);
     }
 
@@ -43,21 +41,21 @@ public class PostSerivceImpl implements PostSerivce {
         }
         PostCreatedModel finalPost = new PostCreatedModel();
         finalPost.setPost(postRepository.findById(id).get());
-        finalPost.setList(imageRepository.findAllByPostId(id));
+        finalPost.setList(postImageRepository.findAllByPostId(id));
         return new ServiceResult(finalPost, ServiceResult.SUCCESS, Constant.EMPTY);
     }
 
     @Override
     public ServiceResult createPost(PostCreatedModel postCreatedModel) {
         Post p =  postRepository.saveAndFlush(postCreatedModel.getPost());
-        List<Image> listImage = postCreatedModel.getList();
+        List<PostImage> listImage = postCreatedModel.getList();
         listImage.get(0).setType(Constant.COVER_IMAGE);
-        for (Image i : listImage) {
+        for (PostImage i : listImage) {
             p.setId(p.getId());
             i.setPost(p);
-            imageRepository.save(i);
+            postImageRepository.save(i);
         }
-        return new ServiceResult(postRepository.findAll(), ServiceResult.SUCCESS, Constant.CREATE_SUCCESS);
+        return new ServiceResult(postRepository.findAll(), ServiceResult.SUCCESS, Constant.CREATE_POST_SUCCESS);
     }
 
     @Override
@@ -67,14 +65,14 @@ public class PostSerivceImpl implements PostSerivce {
         if (!postRepository.existsById(postId)) {
             throw new NotFoundException(Constant.POST_NOT_FOUND);
         }
-        imageRepository.deleteAllByPostId(postId);
+        postImageRepository.deleteAllByPostId(postId);
         postRepository.save(postCreatedModel.getPost());
-        List<Image> listImage = postCreatedModel.getList();
-        for (Image i : listImage) {
+        List<PostImage> listImage = postCreatedModel.getList();
+        for (PostImage i : listImage) {
             Post p = new Post();
             p.setId(postId);
             i.setPost(p);
-            imageRepository.save(i);
+            postImageRepository.save(i);
         }
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.EDIT_SUCCESS);
     }
@@ -86,15 +84,15 @@ public class PostSerivceImpl implements PostSerivce {
     }
 
     @Autowired
-    private ImageRepository imageRepository;
+    private PostImageRepository postImageRepository;
 
     private ServiceResult getServiceResult(List<Post> postList) {
         List<PostServiceDTO> postServiceDTOList = new ArrayList<>();
         for (Post p : postList) {
             String img = Constant.EMPTY;
-            Image image = imageRepository.findByPostIdAndType(p.getId(), Constant.COVER_IMAGE);
-            if (image != null)
-                img = image.getImg();
+            PostImage postImage = postImageRepository.findByPostIdAndType(p.getId(), Constant.COVER_IMAGE);
+            if (postImage != null)
+                img = postImage.getImg();
             PostServiceDTO postReturned = new PostServiceDTO(p, img);
             postServiceDTOList.add(postReturned);
         }

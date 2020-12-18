@@ -8,5 +8,5 @@ public interface BannerService {
     ServiceResult getAllBanner();
     ServiceResult createBanner(Banner banner);
     ServiceResult editBanner(Banner banner) throws NotFoundException;
-    ServiceResult deleteBanner(Long id);
+    ServiceResult deleteBanner(Long id) throws  NotFoundException;
 }
