@@ -19,17 +19,8 @@ public class SettingEmployeeImpl implements SettingEmployeeService {
     private EmployeeInfoRepository employeeInfoRepository;
 
     @Override
-    public ServiceResult changeMail(EmployeeInfo employeeInfo) throws NotFoundException {
-        if (employeeInfoRepository.existsById(employeeInfo.getId())) {
-            throw new NotFoundException(Constant.EMPLOYEE_NOT_FOUND);
-        }
-        employeeInfoRepository.save(employeeInfo);
-        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.CHANGE_MAIL_SUCCESS);
-    }
-
-    @Override
     public ServiceResult addEmployee(EmployeeInfo employeeInfo) throws ExistedException {
-        if(employeeInfoRepository.existsByEmail(employeeInfo.getEmail())){
+        if(!employeeInfoRepository.existsByEmail(employeeInfo.getEmail())){
             throw new ExistedException(Constant.EMPLOYEE_EXISTED);
         }
         employeeInfoRepository.save(employeeInfo);
@@ -38,21 +29,20 @@ public class SettingEmployeeImpl implements SettingEmployeeService {
 
     @Override
     public ServiceResult editEmployee(EmployeeInfo employeeInfo) throws NotFoundException {
-        if (employeeInfoRepository.existsById(employeeInfo.getId())) {
+        if (!employeeInfoRepository.existsById(employeeInfo.getId())) {
             throw new NotFoundException(Constant.EMPLOYEE_NOT_FOUND);
         }
-        employeeInfoRepository.deleteById(employeeInfo.getId());
         employeeInfoRepository.save(employeeInfo);
-        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.EDIT_SUCCESS);
+        return new ServiceResult(employeeInfoRepository.findAll(), ServiceResult.SUCCESS, Constant.EDIT_SUCCESS);
     }
 
     @Override
     public ServiceResult deleteEmployee(Long id) throws NotFoundException {
-        if (employeeInfoRepository.existsById(id)) {
+        if (!employeeInfoRepository.existsById(id)) {
             throw new NotFoundException(Constant.EMPLOYEE_NOT_FOUND);
         }
         employeeInfoRepository.deleteById(id);
-        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);
+        return new ServiceResult(employeeInfoRepository.findAll(), ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);
     }
 
     @Override

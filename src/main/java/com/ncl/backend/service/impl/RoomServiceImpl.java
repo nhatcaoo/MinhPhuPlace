@@ -1,24 +1,28 @@
 package com.ncl.backend.service.impl;
 
 import com.ncl.backend.common.Constant;
-import com.ncl.backend.entity.Post;
-import com.ncl.backend.entity.PostImage;
 import com.ncl.backend.entity.Room;
 import com.ncl.backend.entity.RoomImage;
 import com.ncl.backend.exception.NotFoundException;
 import com.ncl.backend.model.*;
-import com.ncl.backend.repository.PostImageRepository;
 import com.ncl.backend.repository.RoomImageRepository;
 import com.ncl.backend.repository.RoomRepository;
 import com.ncl.backend.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class RoomServiceImpl implements RoomService {
     @Autowired
     private RoomRepository roomRepository;
+
+    @Override
+    public ServiceResult getAllRoom() {
+        List<Room> roomList = roomRepository.findAll();
+        return new ServiceResult(roomList, ServiceResult.SUCCESS, Constant.EMPTY);
+    }
 
     @Override
     public ServiceResult getOneRoom(Long id) throws NotFoundException {
