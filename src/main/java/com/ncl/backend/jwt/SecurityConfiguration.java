@@ -54,6 +54,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(Constant.API_PREFIX+"/login").permitAll()
                 .antMatchers(Constant.API_PREFIX+"/all/**").permitAll()
+                .antMatchers("/api/swagger-ui/").permitAll()
+                .antMatchers(Constant.API_PREFIX+"/swagger-ui/").permitAll()
+
 //                .antMatchers(Constant.API_PREFIX+"/ackpoint").permitAll()
 //                .antMatchers(Constant.API_PREFIX+"/get-ads-list").permitAll()
                 .antMatchers(Constant.API_PREFIX+"admin/**").hasAuthority("MANAGER")
