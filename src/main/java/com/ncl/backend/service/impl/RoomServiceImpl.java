@@ -17,6 +17,8 @@ import java.util.List;
 public class RoomServiceImpl implements RoomService {
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private RoomImageRepository roomImageRepository;
 
     @Override
     public ServiceResult getAllRoom() {
@@ -39,10 +41,12 @@ public class RoomServiceImpl implements RoomService {
     public ServiceResult createRoom(RoomCreatedModel roomCreatedModel) {
         Room r = roomRepository.saveAndFlush(roomCreatedModel.getRoom());
         List<RoomImage> listImage = roomCreatedModel.getList();
+        System.out.println(listImage.size());
         listImage.get(0).setType(Constant.COVER_IMAGE);
         for (RoomImage i : listImage) {
-            r.setId(r.getId());
             i.setRoom(r);
+            System.out.println(i.getBrief());
+            System.out.println(i.getRoom());
             roomImageRepository.save(i);
         }
         return new ServiceResult(roomRepository.findAll(), ServiceResult.SUCCESS, Constant.ROOM_CREATE_SUCCESS);
@@ -76,6 +80,4 @@ public class RoomServiceImpl implements RoomService {
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);
     }
 
-    @Autowired
-    private RoomImageRepository roomImageRepository;
 }

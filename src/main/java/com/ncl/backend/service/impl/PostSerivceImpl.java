@@ -51,7 +51,6 @@ public class PostSerivceImpl implements PostSerivce {
         List<PostImage> listImage = postCreatedModel.getList();
         listImage.get(0).setType(Constant.COVER_IMAGE);
         for (PostImage i : listImage) {
-            p.setId(p.getId());
             i.setPost(p);
             postImageRepository.save(i);
         }
