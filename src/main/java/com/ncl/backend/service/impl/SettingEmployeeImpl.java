@@ -10,6 +10,7 @@ import com.ncl.backend.service.SettingEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.security.Provider;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class SettingEmployeeImpl implements SettingEmployeeService {
 
     @Override
     public ServiceResult addEmployee(EmployeeInfo employeeInfo) throws ExistedException {
-        if(!employeeInfoRepository.existsByEmail(employeeInfo.getEmail())){
+        if(employeeInfoRepository.existsByEmail(employeeInfo.getEmail())){
             throw new ExistedException(Constant.EMPLOYEE_EXISTED);
         }
         employeeInfoRepository.save(employeeInfo);
@@ -28,6 +29,7 @@ public class SettingEmployeeImpl implements SettingEmployeeService {
     }
 
     @Override
+    @Transactional
     public ServiceResult editEmployee(EmployeeInfo employeeInfo) throws NotFoundException {
         if (!employeeInfoRepository.existsById(employeeInfo.getId())) {
             throw new NotFoundException(Constant.EMPLOYEE_NOT_FOUND);
@@ -37,6 +39,7 @@ public class SettingEmployeeImpl implements SettingEmployeeService {
     }
 
     @Override
+    @Transactional
     public ServiceResult deleteEmployee(Long id) throws NotFoundException {
         if (!employeeInfoRepository.existsById(id)) {
             throw new NotFoundException(Constant.EMPLOYEE_NOT_FOUND);

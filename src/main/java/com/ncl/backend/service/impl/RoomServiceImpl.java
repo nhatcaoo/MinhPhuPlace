@@ -11,6 +11,7 @@ import com.ncl.backend.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -45,20 +46,18 @@ public class RoomServiceImpl implements RoomService {
         listImage.get(0).setType(Constant.COVER_IMAGE);
         for (RoomImage i : listImage) {
             i.setRoom(r);
-            System.out.println(i.getBrief());
-            System.out.println(i.getRoom());
             roomImageRepository.save(i);
         }
         return new ServiceResult(roomRepository.findAll(), ServiceResult.SUCCESS, Constant.ROOM_CREATE_SUCCESS);
     }
 
     @Override
+    @Transactional
     public ServiceResult editRoom(RoomCreatedModel roomCreatedModel) throws NotFoundException {
         Long roomId = roomCreatedModel.getRoom().getId();
         if (!roomRepository.existsById(roomId)) {
             throw new NotFoundException(Constant.ROOM_NOT_FOUND);
         }
-        roomImageRepository.deleteAllByRoomId(roomId);
         roomRepository.save(roomCreatedModel.getRoom());
         List<RoomImage> listImage = roomCreatedModel.getList();
         for (RoomImage i : listImage) {
@@ -71,12 +70,14 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional
     public ServiceResult deleteRoom(Long id) throws NotFoundException {
         if (!roomRepository.existsById(id)) {
             throw new NotFoundException(Constant.ROOM_NOT_FOUND);
         }
-        roomRepository.deleteById(id);
+        System.out.println(id);
         roomImageRepository.deleteAllByRoomId(id);
+        roomRepository.deleteById(id);
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);
     }
 
