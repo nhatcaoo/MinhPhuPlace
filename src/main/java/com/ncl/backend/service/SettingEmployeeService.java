@@ -8,8 +8,6 @@ import com.ncl.backend.model.ServiceResult;
 import java.security.Provider;
 
 public interface SettingEmployeeService {
-    ServiceResult changeMail(EmployeeInfo employeeInfo) throws NotFoundException;
-
     ServiceResult addEmployee(EmployeeInfo employeeInfo) throws ExistedException;
 
     ServiceResult editEmployee(EmployeeInfo employeeInfo) throws NotFoundException;

@@ -10,6 +10,7 @@ import com.ncl.backend.service.BannerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import javax.xml.transform.OutputKeys;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
+    @Transactional
     public ServiceResult editBanner(Banner banner) throws NotFoundException {
         if (!bannerRepository.existsById(banner.getId())) {
             throw new NotFoundException(Constant.BANNER_NOT_FOUND);
@@ -41,6 +43,7 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
+    @Transactional
     public ServiceResult deleteBanner(Long id) throws NotFoundException {
         if (!bannerRepository.existsById(id)) {
             throw new NotFoundException(Constant.BANNER_NOT_FOUND);

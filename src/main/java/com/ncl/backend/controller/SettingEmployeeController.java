@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = {"/api/v1"})
 public class SettingEmployeeController {
     @Autowired
-    SettingEmployeeService settingEmployeeService;
+    private SettingEmployeeService settingEmployeeService;
 
     @ResponseBody
     @GetMapping("/all/get-all-employee")
@@ -27,12 +27,6 @@ public class SettingEmployeeController {
     @PutMapping("/admin/edit-employee")
     public ResponseEntity editEmployee(@RequestBody EmployeeInfo employeeInfo) throws NotFoundException {
         return new ResponseEntity(settingEmployeeService.editEmployee(employeeInfo), HttpStatus.OK);
-    }
-
-    @ResponseBody
-    @PutMapping("/admin/change-email-employee")
-    public ResponseEntity changeEmail(@RequestBody EmployeeInfo employeeInfo) throws NotFoundException {
-        return new ResponseEntity(settingEmployeeService.changeMail(employeeInfo), HttpStatus.OK);
     }
 
     @ResponseBody

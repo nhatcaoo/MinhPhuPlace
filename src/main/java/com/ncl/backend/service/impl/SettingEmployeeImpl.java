@@ -10,6 +10,7 @@ import com.ncl.backend.service.SettingEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.security.Provider;
 import java.util.List;
 
@@ -17,15 +18,6 @@ import java.util.List;
 public class SettingEmployeeImpl implements SettingEmployeeService {
     @Autowired
     private EmployeeInfoRepository employeeInfoRepository;
-
-    @Override
-    public ServiceResult changeMail(EmployeeInfo employeeInfo) throws NotFoundException {
-        if (employeeInfoRepository.existsById(employeeInfo.getId())) {
-            throw new NotFoundException(Constant.EMPLOYEE_NOT_FOUND);
-        }
-        employeeInfoRepository.save(employeeInfo);
-        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.CHANGE_MAIL_SUCCESS);
-    }
 
     @Override
     public ServiceResult addEmployee(EmployeeInfo employeeInfo) throws ExistedException {
@@ -37,22 +29,23 @@ public class SettingEmployeeImpl implements SettingEmployeeService {
     }
 
     @Override
+    @Transactional
     public ServiceResult editEmployee(EmployeeInfo employeeInfo) throws NotFoundException {
-        if (employeeInfoRepository.existsById(employeeInfo.getId())) {
+        if (!employeeInfoRepository.existsById(employeeInfo.getId())) {
             throw new NotFoundException(Constant.EMPLOYEE_NOT_FOUND);
         }
-        employeeInfoRepository.deleteById(employeeInfo.getId());
         employeeInfoRepository.save(employeeInfo);
-        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.EDIT_SUCCESS);
+        return new ServiceResult(employeeInfoRepository.findAll(), ServiceResult.SUCCESS, Constant.EDIT_SUCCESS);
     }
 
     @Override
+    @Transactional
     public ServiceResult deleteEmployee(Long id) throws NotFoundException {
-        if (employeeInfoRepository.existsById(id)) {
+        if (!employeeInfoRepository.existsById(id)) {
             throw new NotFoundException(Constant.EMPLOYEE_NOT_FOUND);
         }
         employeeInfoRepository.deleteById(id);
-        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);
+        return new ServiceResult(employeeInfoRepository.findAll(), ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);
     }
 
     @Override

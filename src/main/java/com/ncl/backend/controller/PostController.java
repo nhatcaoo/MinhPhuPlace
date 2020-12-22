@@ -1,6 +1,5 @@
 package com.ncl.backend.controller;
 
-import com.ncl.backend.entity.Post;
 import com.ncl.backend.exception.NotFoundException;
 import com.ncl.backend.model.PostCreatedModel;
 import com.ncl.backend.service.PostSerivce;
