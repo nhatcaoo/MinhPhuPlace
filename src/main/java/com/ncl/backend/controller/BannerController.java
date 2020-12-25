@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = {"/api/v1"})
 public class BannerController {
     @Autowired
-    BannerService bannerService;
+    private BannerService bannerService;
 
     @ResponseBody
     @GetMapping("/all/get-all-banner")

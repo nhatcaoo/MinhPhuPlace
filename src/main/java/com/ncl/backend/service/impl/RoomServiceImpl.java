@@ -1,24 +1,31 @@
 package com.ncl.backend.service.impl;
 
 import com.ncl.backend.common.Constant;
-import com.ncl.backend.entity.Post;
-import com.ncl.backend.entity.PostImage;
 import com.ncl.backend.entity.Room;
 import com.ncl.backend.entity.RoomImage;
 import com.ncl.backend.exception.NotFoundException;
 import com.ncl.backend.model.*;
-import com.ncl.backend.repository.PostImageRepository;
 import com.ncl.backend.repository.RoomImageRepository;
 import com.ncl.backend.repository.RoomRepository;
 import com.ncl.backend.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Service
 public class RoomServiceImpl implements RoomService {
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private RoomImageRepository roomImageRepository;
+
+    @Override
+    public ServiceResult getAllRoom() {
+        List<Room> roomList = roomRepository.findAll();
+        return new ServiceResult(roomList, ServiceResult.SUCCESS, Constant.EMPTY);
+    }
 
     @Override
     public ServiceResult getOneRoom(Long id) throws NotFoundException {
@@ -35,9 +42,9 @@ public class RoomServiceImpl implements RoomService {
     public ServiceResult createRoom(RoomCreatedModel roomCreatedModel) {
         Room r = roomRepository.saveAndFlush(roomCreatedModel.getRoom());
         List<RoomImage> listImage = roomCreatedModel.getList();
+        System.out.println(listImage.size());
         listImage.get(0).setType(Constant.COVER_IMAGE);
         for (RoomImage i : listImage) {
-            r.setId(r.getId());
             i.setRoom(r);
             roomImageRepository.save(i);
         }
@@ -45,12 +52,12 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional
     public ServiceResult editRoom(RoomCreatedModel roomCreatedModel) throws NotFoundException {
         Long roomId = roomCreatedModel.getRoom().getId();
         if (!roomRepository.existsById(roomId)) {
             throw new NotFoundException(Constant.ROOM_NOT_FOUND);
         }
-        roomImageRepository.deleteAllByRoomId(roomId);
         roomRepository.save(roomCreatedModel.getRoom());
         List<RoomImage> listImage = roomCreatedModel.getList();
         for (RoomImage i : listImage) {
@@ -63,15 +70,15 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional
     public ServiceResult deleteRoom(Long id) throws NotFoundException {
         if (!roomRepository.existsById(id)) {
             throw new NotFoundException(Constant.ROOM_NOT_FOUND);
         }
-        roomRepository.deleteById(id);
+        System.out.println(id);
         roomImageRepository.deleteAllByRoomId(id);
+        roomRepository.deleteById(id);
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);
     }
 
-    @Autowired
-    private RoomImageRepository roomImageRepository;
 }
