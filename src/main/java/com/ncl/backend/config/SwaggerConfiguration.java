@@ -24,7 +24,7 @@ public class SwaggerConfiguration {
                 .forCodeGeneration(true)
                 .globalOperationParameters(globalParameterList())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ncl.backend.controller"))
+                .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build();
     }

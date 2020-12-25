@@ -2,6 +2,7 @@ package com.ncl.backend.service.impl;
 
 import com.ncl.backend.common.Constant;
 import com.ncl.backend.entity.Account;
+import com.ncl.backend.exception.ExistedException;
 import com.ncl.backend.exception.NotFoundException;
 import com.ncl.backend.jwt.SecurityConfiguration;
 import com.ncl.backend.model.LoginModel;
@@ -91,7 +92,9 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public ServiceResult register(String username, String password) {
+    public ServiceResult register(String username, String password) throws ExistedException {
+        if(!accountRepository.existsByUsername(username))
+            throw new ExistedException("Tài khoản đã tồn tại");
         Account account = new Account();
         account.setUsername(username);
         account.setPassword(securityConfiguration.passwordEncoder().encode(password));
