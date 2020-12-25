@@ -1,5 +1,6 @@
 package com.ncl.backend.controller;
 
+import com.ncl.backend.exception.ExistedException;
 import com.ncl.backend.exception.NotFoundException;
 import com.ncl.backend.model.LoginModel;
 import com.ncl.backend.model.ServiceResult;
@@ -36,7 +37,7 @@ public class Login {
     }
     @PostMapping("/all/register")
     public ResponseEntity<ServiceResult> register(
-            @RequestBody LoginModel loginModel) {
+            @RequestBody LoginModel loginModel) throws ExistedException {
         logger.info("login");
         return new ResponseEntity(loginService.register(loginModel.getUsername(), loginModel.getPassword()), HttpStatus.OK);
     }
