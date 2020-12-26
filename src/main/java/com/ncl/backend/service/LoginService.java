@@ -7,6 +7,7 @@ import com.ncl.backend.model.ServiceResult;
 
 public interface LoginService {
      ServiceResult changePassword(LoginModel loginModel) throws NotFoundException;
+     void initAccount() ;
      ServiceResult login(String username, String password);
      ServiceResult register(String username, String password) throws ExistedException;
 }

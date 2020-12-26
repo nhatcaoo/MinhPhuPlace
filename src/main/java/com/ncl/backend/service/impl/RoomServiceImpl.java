@@ -42,13 +42,12 @@ public class RoomServiceImpl implements RoomService {
     public ServiceResult createRoom(RoomCreatedModel roomCreatedModel) {
         Room r = roomRepository.saveAndFlush(roomCreatedModel.getRoom());
         List<RoomImage> listImage = roomCreatedModel.getList();
-        System.out.println(listImage.size());
         listImage.get(0).setType(Constant.COVER_IMAGE);
         for (RoomImage i : listImage) {
             i.setRoom(r);
             roomImageRepository.save(i);
         }
-        return new ServiceResult(roomRepository.findAll(), ServiceResult.SUCCESS, Constant.ROOM_CREATE_SUCCESS);
+        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.ROOM_CREATE_SUCCESS);
     }
 
     @Override
@@ -75,7 +74,6 @@ public class RoomServiceImpl implements RoomService {
         if (!roomRepository.existsById(id)) {
             throw new NotFoundException(Constant.ROOM_NOT_FOUND);
         }
-        System.out.println(id);
         roomImageRepository.deleteAllByRoomId(id);
         roomRepository.deleteById(id);
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);

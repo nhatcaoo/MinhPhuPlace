@@ -35,7 +35,7 @@ public class Login {
         logger.info("login");
         return new ResponseEntity(loginService.login(loginModel.getUsername(), loginModel.getPassword()), HttpStatus.OK);
     }
-    @PostMapping("/all/register")
+    @PostMapping("/admin/register")
     public ResponseEntity<ServiceResult> register(
             @RequestBody LoginModel loginModel) throws ExistedException {
         logger.info("login");

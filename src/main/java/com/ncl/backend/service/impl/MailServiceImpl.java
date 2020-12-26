@@ -1,5 +1,6 @@
 package com.ncl.backend.service.impl;
 
+import com.ncl.backend.common.Constant;
 import com.ncl.backend.entity.EmployeeInfo;
 import com.ncl.backend.exception.NullObjectException;
 import com.ncl.backend.common.MailConstants;
@@ -27,8 +28,8 @@ public class MailServiceImpl implements MailService {
     private EmployeeInfoRepository employeeInfoRepository;
 
     @Override
-    public ServiceResult sendDemoMail(BookingRequest bookingRequest) throws NullObjectException, MessagingException {
-        if(bookingRequest == null){
+    public ServiceResult sendDemoMail(BookingRequest bookingRequest) throws Exception {
+        if (bookingRequest == null) {
             throw new NullObjectException("Thông tin không chính xác");
         }
 
@@ -38,13 +39,13 @@ public class MailServiceImpl implements MailService {
 
         //Get Employee Email
         List<EmployeeInfo> listEmployee = employeeInfoRepository.findAll();
-        if(listEmployee.isEmpty()){
-            return new ServiceResult(null, ServiceResult.SUCCESS,"dở rồi");
+        if (listEmployee.isEmpty()) {
+            throw new Exception();
         }
 
         String[] toEmail = new String[listEmployee.size()];
         int count = 0;
-        for(EmployeeInfo employeeInfo : listEmployee){
+        for (EmployeeInfo employeeInfo : listEmployee) {
             toEmail[count] = employeeInfo.getEmail();
             count++;
         }
@@ -53,9 +54,9 @@ public class MailServiceImpl implements MailService {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
         LocalDateTime now = LocalDateTime.now();
 
-        String text = "\tFull name: " + bookingRequest.getFullName() +"\n"
+        String text = "\tFull name: " + bookingRequest.getFullName() + "\n"
                 + "\tPhone number: " + bookingRequest.getPhoneNumber() + "\n"
-                + "\tService order: " + bookingRequest.getServiceName() +  "\n"
+                + "\tService order: " + bookingRequest.getServiceName() + "\n"
                 + "\tOrder time: " + dtf.format(now);
 
         helper.setFrom(MailConstants.MY_EMAIL);
@@ -74,6 +75,6 @@ public class MailServiceImpl implements MailService {
         //Send Email
         emailSender.send(message);
 
-        return new ServiceResult(null, ServiceResult.SUCCESS,"ok ngon");
+        return new ServiceResult(null, ServiceResult.SUCCESS, "Thông tin đã được ghi nhận thành công.");
     }
 }

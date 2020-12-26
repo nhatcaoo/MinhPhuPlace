@@ -2,7 +2,7 @@ package com.ncl.backend.common;
 
 public class Constant {
     public static final String SERVICE = "SERVICE";
-    public static final String POST_HOMEPAGE_SERVICE = "HOMEPAGE_POST";
+    public static final String POST_HOMEPAGE_SERVICE = "MAJOR_SERVICE";
     public static final String EVENT = "EVENT";
     public static final String COVER_IMAGE = "COVER";
     public static final String POST_NOT_FOUND = "Bài viết không tồn tại";
@@ -40,6 +40,5 @@ public class Constant {
     public static final String EMPLOYEE_EXISTED = "Nhân viên đã tồn tại!";
     //Room
     public static final String ROOM_NOT_FOUND = "Phòng cần tìm không có!";
-    public static final String ROOM_HOMEPAGE_SERVICE = "HOMEPAGE_ROOM";
     public static final String ROOM_CREATE_SUCCESS = "Tạo phòng thành công!";
 }

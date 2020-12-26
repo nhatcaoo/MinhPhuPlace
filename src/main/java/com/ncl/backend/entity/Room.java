@@ -27,4 +27,5 @@ public class Room implements Serializable {
 
     @Column(name = "description", nullable = true, length = 100000)
     private String description;
+
 }

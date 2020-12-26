@@ -20,6 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,7 +35,6 @@ public class LoginServiceImpl implements LoginService {
     private JWTService jwtService;
     @Autowired
     private SecurityConfiguration securityConfiguration;
-
     @Override
     public ServiceResult changePassword(LoginModel loginModel) throws NotFoundException {
         if (!accountRepository.existsById(loginModel.getId()))
@@ -42,6 +42,14 @@ public class LoginServiceImpl implements LoginService {
         Account account = accountRepository.findById(loginModel.getId()).get();
         account.setPassword(securityConfiguration.passwordEncoder().encode(loginModel.getPassword()));
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.ACCOUNT_CHANGE_SUCCESSFUL);
+    }
+
+    @Override
+    public void initAccount() {
+        Account account = new Account();
+        account.setUsername("admin");
+        account.setPassword(securityConfiguration.passwordEncoder().encode("admin"));
+        accountRepository.save(account);
     }
 
     @Override
@@ -93,7 +101,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public ServiceResult register(String username, String password) throws ExistedException {
-        if(!accountRepository.existsByUsername(username))
+        if(accountRepository.existsByUsername(username))
             throw new ExistedException("Tài khoản đã tồn tại");
         Account account = new Account();
         account.setUsername(username);

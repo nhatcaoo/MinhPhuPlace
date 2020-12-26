@@ -19,7 +19,7 @@ public class EmailController {
 
     @ResponseBody
     @PostMapping("/all/send-email") //post get put delete
-    public ResponseEntity sendSimpleEmail(@RequestBody BookingRequest bookingRequest) throws NullObjectException, MessagingException {
+    public ResponseEntity sendSimpleEmail(@RequestBody BookingRequest bookingRequest) throws Exception {
         return new ResponseEntity( mailService.sendDemoMail(bookingRequest), HttpStatus.OK);
     }
 }

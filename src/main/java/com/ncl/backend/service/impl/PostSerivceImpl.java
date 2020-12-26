@@ -47,14 +47,17 @@ public class PostSerivceImpl implements PostSerivce {
 
     @Override
     public ServiceResult createPost(PostCreatedModel postCreatedModel) {
-        Post p =  postRepository.saveAndFlush(postCreatedModel.getPost());
+        if (Constant.POST_HOMEPAGE_SERVICE.equalsIgnoreCase(postCreatedModel.getPost().getType())) {
+            return new ServiceResult(null, ServiceResult.FAIL, "Không thể tạo quá major post");
+        }
+        Post p = postRepository.saveAndFlush(postCreatedModel.getPost());
         List<PostImage> listImage = postCreatedModel.getList();
         listImage.get(0).setType(Constant.COVER_IMAGE);
         for (PostImage i : listImage) {
             i.setPost(p);
             postImageRepository.save(i);
         }
-        return new ServiceResult(postRepository.findAll(), ServiceResult.SUCCESS, Constant.CREATE_POST_SUCCESS);
+        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.CREATE_POST_SUCCESS);
     }
 
     @Override
@@ -64,8 +67,11 @@ public class PostSerivceImpl implements PostSerivce {
         if (!postRepository.existsById(postId)) {
             throw new NotFoundException(Constant.POST_NOT_FOUND);
         }
+        Post post = postCreatedModel.getPost();
+        if(Constant.POST_HOMEPAGE_SERVICE.equalsIgnoreCase(postRepository.findById(postId).get().getType()))
+            post.setType(Constant.POST_HOMEPAGE_SERVICE);
         postImageRepository.deleteAllByPostId(postId);
-        postRepository.save(postCreatedModel.getPost());
+        postRepository.save(post);
         List<PostImage> listImage = postCreatedModel.getList();
         for (PostImage i : listImage) {
             Post p = new Post();
@@ -80,6 +86,34 @@ public class PostSerivceImpl implements PostSerivce {
     public ServiceResult getAllEvent() {
         List<Post> postList = postRepository.findAllByType(Constant.EVENT);
         return getServiceResult(postList);
+    }
+
+    @Override
+    public void initMajorPost() {
+
+        for (int i = 0; i < 3; i++) {
+            Post post = new Post();
+            post.setType(Constant.POST_HOMEPAGE_SERVICE);
+            post.setBrief("");
+            post.setDescription("");
+            post.setTitle("");
+            post.setShortDescription("");
+            postRepository.save(post);
+        }
+    }
+
+    @Transactional
+    @Override
+    public ServiceResult deletePost(Long id) throws NotFoundException {
+        if (!postRepository.existsById(id)) {
+            throw new NotFoundException(Constant.POST_NOT_FOUND);
+        }
+        Post p = postRepository.findById(id).get();
+        if (Constant.POST_HOMEPAGE_SERVICE.equalsIgnoreCase(p.getType()))
+            return new ServiceResult(null, ServiceResult.FAIL, "Không thể xoá vì bài viết nằm ở trang chủ");
+        postImageRepository.deleteAllByPostId(id);
+        postRepository.deleteById(id);
+        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);
     }
 
     @Autowired

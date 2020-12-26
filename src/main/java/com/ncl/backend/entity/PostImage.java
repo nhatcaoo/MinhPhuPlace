@@ -20,7 +20,7 @@ public class PostImage implements Serializable {
     @Column(name = "brief", nullable = true)
     private String brief;
 
-    @Column(name = "img", nullable = false)
+    @Column(name = "img", nullable = false, length = 1000000)
     private String img;
 
     @Column(name = "type", nullable = true)

@@ -1,8 +1,10 @@
 package com.ncl.backend.exceptionHandleAPI;
 
+import com.ncl.backend.exception.ExistedException;
 import com.ncl.backend.exception.NotFoundException;
 import com.ncl.backend.exception.NullObjectException;
 import com.ncl.backend.model.ServiceResult;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +61,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ServiceResult> handleBadRequest(Exception ex, WebRequest request) {
         ex.printStackTrace();
 
-        return new ResponseEntity(new ServiceResult(null, ServiceResult.FAIL, "ax"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(new ServiceResult(null, ServiceResult.FAIL, ex.getMessage()), HttpStatus.BAD_REQUEST);
 
     }
+    @ExceptionHandler(ExistedException.class)
+    public ResponseEntity<ServiceResult> handleExistedRequest(Exception ex, WebRequest request) {
+        ex.printStackTrace();
+
+        return new ResponseEntity(new ServiceResult(null, ServiceResult.FAIL, ex.getMessage()), HttpStatus.OK);
+
+    }
+
 }

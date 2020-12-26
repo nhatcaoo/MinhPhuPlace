@@ -38,7 +38,11 @@ public class PostController {
     public ResponseEntity editPost(@RequestBody PostCreatedModel post) throws NotFoundException {
         return new ResponseEntity(postSerivce.editPost(post), HttpStatus.OK);
     }
-
+    @ResponseBody
+    @DeleteMapping("/admin/delete-post") //post get put delete
+    public ResponseEntity deletePost(@RequestParam (value = "id") Long id) throws NotFoundException {
+        return new ResponseEntity(postSerivce.deletePost(id), HttpStatus.OK);
+    }
     @ResponseBody
     @GetMapping("/all/get-all-event") //post get put delete
     public ResponseEntity getAllEvent() {

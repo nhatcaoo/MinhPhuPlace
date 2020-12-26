@@ -7,5 +7,5 @@ import com.ncl.backend.model.ServiceResult;
 import javax.mail.MessagingException;
 
 public interface MailService {
-    ServiceResult sendDemoMail(BookingRequest bookingRequest) throws NullObjectException, MessagingException;
+    ServiceResult sendDemoMail(BookingRequest bookingRequest) throws Exception;
 }

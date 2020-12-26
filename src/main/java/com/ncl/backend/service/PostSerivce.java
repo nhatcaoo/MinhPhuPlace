@@ -11,4 +11,6 @@ public interface PostSerivce {
     ServiceResult createPost(PostCreatedModel postCreatedModel);
     ServiceResult editPost(PostCreatedModel postCreatedModel) throws NotFoundException;
     ServiceResult getAllEvent();
+    void initMajorPost();
+    ServiceResult deletePost(Long id) throws NotFoundException;
 }
