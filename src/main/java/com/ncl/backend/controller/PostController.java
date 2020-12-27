@@ -1,6 +1,7 @@
 package com.ncl.backend.controller;
 
 import com.ncl.backend.exception.NotFoundException;
+import com.ncl.backend.exception.NullObjectException;
 import com.ncl.backend.model.PostCreatedModel;
 import com.ncl.backend.service.PostSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class PostController {
 
     @ResponseBody
     @PostMapping("/admin/create-post") //post get put delete
-    public ResponseEntity createPost(@RequestBody PostCreatedModel post) {
+    public ResponseEntity createPost(@RequestBody PostCreatedModel post) throws NullObjectException {
         return new ResponseEntity(postSerivce.createPost(post), HttpStatus.OK);
     }
 
@@ -53,5 +54,10 @@ public class PostController {
     @GetMapping("/all/get-all-homepage-service") //post get put delete
     public ResponseEntity getAllHomepageService() {
         return new ResponseEntity(postSerivce.getHomepageServicePost(), HttpStatus.OK);
+    }
+    @ResponseBody
+    @GetMapping("/all/get-minor-service") //post get put delete
+    public ResponseEntity getAllMinorService() {
+        return new ResponseEntity(postSerivce.getAllMinorService(), HttpStatus.OK);
     }
 }

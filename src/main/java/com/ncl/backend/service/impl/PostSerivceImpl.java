@@ -4,6 +4,7 @@ import com.ncl.backend.common.Constant;
 import com.ncl.backend.entity.Post;
 import com.ncl.backend.entity.PostImage;
 import com.ncl.backend.exception.NotFoundException;
+import com.ncl.backend.exception.NullObjectException;
 import com.ncl.backend.model.PostCreatedModel;
 import com.ncl.backend.model.PostServiceDTO;
 import com.ncl.backend.model.ServiceResult;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostSerivceImpl implements PostSerivce {
@@ -45,13 +47,19 @@ public class PostSerivceImpl implements PostSerivce {
         return new ServiceResult(finalPost, ServiceResult.SUCCESS, Constant.EMPTY);
     }
 
+    @Transactional
     @Override
-    public ServiceResult createPost(PostCreatedModel postCreatedModel) {
+    public ServiceResult createPost(PostCreatedModel postCreatedModel) throws NullObjectException {
         if (Constant.POST_HOMEPAGE_SERVICE.equalsIgnoreCase(postCreatedModel.getPost().getType())) {
             return new ServiceResult(null, ServiceResult.FAIL, "Không thể tạo quá major post");
         }
         Post p = postRepository.saveAndFlush(postCreatedModel.getPost());
-        List<PostImage> listImage = postCreatedModel.getList();
+
+        List<PostImage> listImage = null;
+
+            listImage = postCreatedModel.getList();
+
+        if(!listImage.isEmpty())
         listImage.get(0).setType(Constant.COVER_IMAGE);
         for (PostImage i : listImage) {
             i.setPost(p);
@@ -68,11 +76,13 @@ public class PostSerivceImpl implements PostSerivce {
             throw new NotFoundException(Constant.POST_NOT_FOUND);
         }
         Post post = postCreatedModel.getPost();
-        if(Constant.POST_HOMEPAGE_SERVICE.equalsIgnoreCase(postRepository.findById(postId).get().getType()))
+        if (Constant.POST_HOMEPAGE_SERVICE.equalsIgnoreCase(postRepository.findById(postId).get().getType()))
             post.setType(Constant.POST_HOMEPAGE_SERVICE);
         postImageRepository.deleteAllByPostId(postId);
         postRepository.save(post);
         List<PostImage> listImage = postCreatedModel.getList();
+        if(!listImage.isEmpty())
+            listImage.get(0).setType(Constant.COVER_IMAGE);
         for (PostImage i : listImage) {
             Post p = new Post();
             p.setId(postId);
@@ -116,6 +126,12 @@ public class PostSerivceImpl implements PostSerivce {
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);
     }
 
+    @Override
+    public ServiceResult getAllMinorService() {
+        List<Post> postList = postRepository.findAllByType(Constant.SERVICE);
+        return getServiceResult(postList);
+    }
+
     @Autowired
     private PostImageRepository postImageRepository;
 
@@ -126,6 +142,7 @@ public class PostSerivceImpl implements PostSerivce {
             PostImage postImage = postImageRepository.findByPostIdAndType(p.getId(), Constant.COVER_IMAGE);
             if (postImage != null)
                 img = postImage.getImg();
+
             PostServiceDTO postReturned = new PostServiceDTO(p, img);
             postServiceDTOList.add(postReturned);
         }
