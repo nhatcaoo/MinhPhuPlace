@@ -24,7 +24,7 @@ public class DemoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        postSerivce.initMajorPost();
+      //  postSerivce.initMajorPost();
        // loginService.initAccount();
     }
 }

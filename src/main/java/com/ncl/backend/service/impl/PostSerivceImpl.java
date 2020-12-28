@@ -3,6 +3,7 @@ package com.ncl.backend.service.impl;
 import com.ncl.backend.common.Constant;
 import com.ncl.backend.entity.Post;
 import com.ncl.backend.entity.PostImage;
+import com.ncl.backend.entity.Preface;
 import com.ncl.backend.exception.NotFoundException;
 import com.ncl.backend.exception.NullObjectException;
 import com.ncl.backend.model.PostCreatedModel;
@@ -10,6 +11,7 @@ import com.ncl.backend.model.PostServiceDTO;
 import com.ncl.backend.model.ServiceResult;
 import com.ncl.backend.repository.PostImageRepository;
 import com.ncl.backend.repository.PostRepository;
+import com.ncl.backend.repository.PrefaceRepository;
 import com.ncl.backend.service.PostSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,10 +59,10 @@ public class PostSerivceImpl implements PostSerivce {
 
         List<PostImage> listImage = null;
 
-            listImage = postCreatedModel.getList();
+        listImage = postCreatedModel.getList();
 
-        if(!listImage.isEmpty())
-        listImage.get(0).setType(Constant.COVER_IMAGE);
+        if (!listImage.isEmpty())
+            listImage.get(0).setType(Constant.COVER_IMAGE);
         for (PostImage i : listImage) {
             i.setPost(p);
             postImageRepository.save(i);
@@ -81,7 +83,7 @@ public class PostSerivceImpl implements PostSerivce {
         postImageRepository.deleteAllByPostId(postId);
         postRepository.save(post);
         List<PostImage> listImage = postCreatedModel.getList();
-        if(!listImage.isEmpty())
+        if (!listImage.isEmpty())
             listImage.get(0).setType(Constant.COVER_IMAGE);
         for (PostImage i : listImage) {
             Post p = new Post();
@@ -130,6 +132,26 @@ public class PostSerivceImpl implements PostSerivce {
     public ServiceResult getAllMinorService() {
         List<Post> postList = postRepository.findAllByType(Constant.SERVICE);
         return getServiceResult(postList);
+    }
+
+    @Autowired
+    private PrefaceRepository prefaceRepository;
+
+    @Override
+    public ServiceResult editPreface(Preface post) throws NotFoundException {
+        post.setId(1L);
+        if (!prefaceRepository.existsById(post.getId())) {
+            throw new NotFoundException(Constant.POST_NOT_FOUND);
+        }
+        prefaceRepository.save(post);
+        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.EDIT_SUCCESS);
+
+    }
+
+    @Override
+    public ServiceResult getPreface() {
+        Preface list = prefaceRepository.findById(1l).get();
+        return new ServiceResult(list, ServiceResult.SUCCESS, "");
     }
 
     @Autowired

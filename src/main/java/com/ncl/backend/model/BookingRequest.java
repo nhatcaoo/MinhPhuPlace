@@ -18,4 +18,6 @@ public class BookingRequest {
     private String phoneNumber;
 
     private String serviceName;
+
+    private String date;
 }

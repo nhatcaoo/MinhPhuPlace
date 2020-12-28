@@ -14,9 +14,18 @@ public class Contact implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "insta")
+    private String insta;
 
-    @Column(name = "value", nullable = false)
-    private String value;
+    @Column(name = "facebook")
+    private String facebook;
+
+    @Column(name = "youtube")
+    private String youtube;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "email")
+    private String email;
 }

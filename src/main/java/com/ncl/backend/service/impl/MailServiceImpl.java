@@ -54,9 +54,10 @@ public class MailServiceImpl implements MailService {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
         LocalDateTime now = LocalDateTime.now();
 
-        String text = "\tFull name: " + bookingRequest.getFullName() + "\n"
-                + "\tPhone number: " + bookingRequest.getPhoneNumber() + "\n"
-                + "\tService order: " + bookingRequest.getServiceName() + "\n"
+        String text = "\tTên người order: " + bookingRequest.getFullName() + "\n"
+                + "\tSố điện thoại: " + bookingRequest.getPhoneNumber() + "\n"
+                + "\tDịch vụ: " + bookingRequest.getServiceName() + "\n"
+                + "\tNgày đặt: " + bookingRequest.getDate() + "\n"
                 + "\tOrder time: " + dtf.format(now);
 
         helper.setFrom(MailConstants.MY_EMAIL);

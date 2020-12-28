@@ -37,7 +37,7 @@ public class SettingEmployeeController {
 
     @ResponseBody
     @DeleteMapping("/admin/delete-employee") //post get put delete
-    public ResponseEntity deleteEmployee(@RequestBody EmployeeInfo employeeInfo) throws NotFoundException {
-        return new ResponseEntity(settingEmployeeService.deleteEmployee(employeeInfo.getId()), HttpStatus.OK);
+    public ResponseEntity deleteEmployee(@RequestParam (value = "id") Long id) throws NotFoundException {
+        return new ResponseEntity(settingEmployeeService.deleteEmployee(id), HttpStatus.OK);
     }
 }

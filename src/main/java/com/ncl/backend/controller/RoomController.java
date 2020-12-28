@@ -41,7 +41,7 @@ public class RoomController {
 
     @ResponseBody
     @DeleteMapping("/admin/delete-room") //post get put delete
-    public ResponseEntity deleteRoom(@RequestBody RoomCreatedModel roomCreatedModel) throws NotFoundException {
-        return new ResponseEntity(roomService.deleteRoom(roomCreatedModel.getRoom().getId()), HttpStatus.OK);
+    public ResponseEntity deleteRoom(@RequestParam(value = "id") Long id) throws NotFoundException {
+        return new ResponseEntity(roomService.deleteRoom(id), HttpStatus.OK);
     }
 }

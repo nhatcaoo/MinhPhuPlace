@@ -36,7 +36,7 @@ public class BannerController {
 
     @ResponseBody
     @DeleteMapping("/admin/delete-banner") //post get put delete
-    public ResponseEntity deleteBanner(@RequestBody Banner banner) throws NotFoundException {
-        return new ResponseEntity(bannerService.deleteBanner(banner.getId()), HttpStatus.OK);
+    public ResponseEntity deleteBanner(@RequestParam (value = "id") Long id) throws NotFoundException {
+        return new ResponseEntity(bannerService.deleteBanner(id), HttpStatus.OK);
     }
 }

@@ -22,12 +22,12 @@ public class GalleryController {
     }
 
     @ResponseBody
-    @PostMapping("/all/gallery/add-to-gallery") //post get put delete
+    @PostMapping("/admin/gallery/add-to-gallery") //post get put delete
     public ResponseEntity createPic(@RequestBody Gallery pic) {
         return new ResponseEntity(galleryService.addPic(pic), HttpStatus.OK);
     }
     @ResponseBody
-    @DeleteMapping("/all/gallery/delete-pic/{id}") //post get put delete
+    @DeleteMapping("/admin/gallery/delete-pic") //post get put delete
     public ResponseEntity deletePic(@RequestParam(value = "id") Long id) throws NotFoundException {
         return new ResponseEntity(galleryService.deletePic(id), HttpStatus.OK);
     }

@@ -1,5 +1,6 @@
 package com.ncl.backend.service;
 
+import com.ncl.backend.entity.Preface;
 import com.ncl.backend.exception.NotFoundException;
 import com.ncl.backend.exception.NullObjectException;
 import com.ncl.backend.model.PostCreatedModel;
@@ -16,4 +17,8 @@ public interface PostSerivce {
     ServiceResult deletePost(Long id) throws NotFoundException;
 
     ServiceResult getAllMinorService();
+
+    ServiceResult editPreface(Preface post) throws NotFoundException;
+
+    ServiceResult getPreface();
 }
