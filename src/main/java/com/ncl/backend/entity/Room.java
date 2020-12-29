@@ -28,4 +28,10 @@ public class Room implements Serializable {
     @Column(name = "description", nullable = true, length = 100000)
     private String description;
 
+    @Column(name = "price", nullable = true)
+    private int price;
+
+    @Column(name = "status", nullable = true)
+    private String status;
+
 }

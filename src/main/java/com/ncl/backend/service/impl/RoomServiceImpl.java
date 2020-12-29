@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -34,36 +35,40 @@ public class RoomServiceImpl implements RoomService {
         }
         RoomCreatedModel finalRoom = new RoomCreatedModel();
         finalRoom.setRoom(roomRepository.findById(id).get());
-        finalRoom.setList(roomImageRepository.findAllByRoomId(id));
+        finalRoom.setList(roomImageRepository.findAllByRoomId(id).stream().map(p -> p.getImg()).collect(Collectors.toList()));
         return new ServiceResult(finalRoom, ServiceResult.SUCCESS, Constant.EMPTY);
     }
-
+    @org.springframework.transaction.annotation.Transactional(rollbackFor = Throwable.class)
     @Override
     public ServiceResult createRoom(RoomCreatedModel roomCreatedModel) {
         Room r = roomRepository.saveAndFlush(roomCreatedModel.getRoom());
-        List<RoomImage> listImage = roomCreatedModel.getList();
-        listImage.get(0).setType(Constant.COVER_IMAGE);
-        for (RoomImage i : listImage) {
-            i.setRoom(r);
-            roomImageRepository.save(i);
+        List<String> listImage = roomCreatedModel.getList();
+        for(String s : listImage){
+            RoomImage roomImage = new RoomImage();
+            roomImage.setImg(s);
+            roomImage.setRoom(r);
+            roomImageRepository.save(roomImage);
         }
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.ROOM_CREATE_SUCCESS);
     }
 
     @Override
-    @Transactional
+    @org.springframework.transaction.annotation.Transactional(rollbackFor = Throwable.class)
     public ServiceResult editRoom(RoomCreatedModel roomCreatedModel) throws NotFoundException {
         Long roomId = roomCreatedModel.getRoom().getId();
         if (!roomRepository.existsById(roomId)) {
             throw new NotFoundException(Constant.ROOM_NOT_FOUND);
         }
         roomRepository.save(roomCreatedModel.getRoom());
-        List<RoomImage> listImage = roomCreatedModel.getList();
-        for (RoomImage i : listImage) {
-            Room r = new Room();
-            r.setId(roomId);
-            i.setRoom(r);
-            roomImageRepository.save(i);
+        roomImageRepository.deleteAllByRoomId(roomId);
+        List<String> listImage = roomCreatedModel.getList();
+        Room r = new Room();
+        r.setId(roomId);
+        for (String i : listImage) {
+            RoomImage roomImage = new RoomImage();
+            roomImage.setImg(i);
+            roomImage.setRoom(r);
+            roomImageRepository.save(roomImage);
         }
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.EDIT_SUCCESS);
     }

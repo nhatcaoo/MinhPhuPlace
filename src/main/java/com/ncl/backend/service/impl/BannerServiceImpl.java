@@ -33,7 +33,7 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
-    @Transactional
+    @org.springframework.transaction.annotation.Transactional(rollbackFor = Throwable.class)
     public ServiceResult editBanner(Banner banner) throws NotFoundException {
         if (!bannerRepository.existsById(banner.getId())) {
             throw new NotFoundException(Constant.BANNER_NOT_FOUND);
@@ -43,7 +43,7 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
-    @Transactional
+    @org.springframework.transaction.annotation.Transactional(rollbackFor = Throwable.class)
     public ServiceResult deleteBanner(Long id) throws NotFoundException {
         if (!bannerRepository.existsById(id)) {
             throw new NotFoundException(Constant.BANNER_NOT_FOUND);

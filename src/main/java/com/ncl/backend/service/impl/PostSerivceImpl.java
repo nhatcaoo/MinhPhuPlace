@@ -49,11 +49,11 @@ public class PostSerivceImpl implements PostSerivce {
         return new ServiceResult(finalPost, ServiceResult.SUCCESS, Constant.EMPTY);
     }
 
-    @Transactional
+    @org.springframework.transaction.annotation.Transactional(rollbackFor = Throwable.class)
     @Override
     public ServiceResult createPost(PostCreatedModel postCreatedModel) throws NullObjectException {
         if (Constant.POST_HOMEPAGE_SERVICE.equalsIgnoreCase(postCreatedModel.getPost().getType())) {
-            return new ServiceResult(null, ServiceResult.FAIL, "Không thể tạo quá major post");
+            return new ServiceResult(null, ServiceResult.FAIL, "Không thể tạo quá 3 major post");
         }
         Post p = postRepository.saveAndFlush(postCreatedModel.getPost());
 
@@ -71,7 +71,7 @@ public class PostSerivceImpl implements PostSerivce {
     }
 
     @Override
-    @Transactional
+    @org.springframework.transaction.annotation.Transactional(rollbackFor = Throwable.class)
     public ServiceResult editPost(PostCreatedModel postCreatedModel) throws NotFoundException {
         Long postId = postCreatedModel.getPost().getId();
         if (!postRepository.existsById(postId)) {
@@ -114,7 +114,7 @@ public class PostSerivceImpl implements PostSerivce {
         }
     }
 
-    @Transactional
+    @org.springframework.transaction.annotation.Transactional(rollbackFor = Throwable.class)
     @Override
     public ServiceResult deletePost(Long id) throws NotFoundException {
         if (!postRepository.existsById(id)) {

@@ -13,5 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 public class RoomCreatedModel {
     private Room room;
-    private List<RoomImage> list;
+    private List<String> list;
 }

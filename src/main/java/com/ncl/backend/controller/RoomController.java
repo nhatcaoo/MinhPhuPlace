@@ -17,7 +17,7 @@ public class RoomController {
 
     @ResponseBody
     @GetMapping("/all/get-all-room") //post get put delete
-    public ResponseEntity getAllRooom() {
+    public ResponseEntity getAllRoom() {
         return new ResponseEntity(roomService.getAllRoom(), HttpStatus.OK);
     }
 
