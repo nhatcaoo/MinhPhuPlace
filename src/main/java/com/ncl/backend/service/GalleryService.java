@@ -5,7 +5,7 @@ import com.ncl.backend.exception.NotFoundException;
 import com.ncl.backend.model.ServiceResult;
 
 public interface GalleryService {
-    ServiceResult getAllPic();
+    ServiceResult getAllPic(Boolean isLimit);
     ServiceResult addPic(Gallery gallery);
     ServiceResult deletePic(Long id) throws NotFoundException;
 }

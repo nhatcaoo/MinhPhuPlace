@@ -23,6 +23,12 @@ public class BannerController {
     }
 
     @ResponseBody
+    @GetMapping("/all/get-one-banner/{id}")
+    public ResponseEntity getOneBanner(@PathVariable(name = "id") Long id) throws NotFoundException {
+        return new ResponseEntity(bannerService.getOneBanner(id), HttpStatus.OK);
+    }
+
+    @ResponseBody
     @PutMapping("/admin/edit-banner")
     public ResponseEntity editBanner(@RequestBody Banner banner) throws NotFoundException {
         return new ResponseEntity(bannerService.editBanner(banner), HttpStatus.OK);

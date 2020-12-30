@@ -17,9 +17,10 @@ public class GalleryController {
 
     @ResponseBody
     @GetMapping("/all/gallery/get-all-pic") //post get put delete
-    public ResponseEntity getAllPic() {
-        return new ResponseEntity(galleryService.getAllPic(), HttpStatus.OK);
+    public ResponseEntity getAllPic(@RequestParam(name = "is_limit", defaultValue = "true") Boolean isLimit) {
+        return new ResponseEntity(galleryService.getAllPic(isLimit), HttpStatus.OK);
     }
+
 
     @ResponseBody
     @PostMapping("/admin/gallery/add-to-gallery") //post get put delete

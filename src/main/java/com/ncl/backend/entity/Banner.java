@@ -18,7 +18,7 @@ public class Banner implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "image", nullable = false)
+    @Column(name = "image", nullable = false, length = 1000000)
     private String image;
 
     @Column(name = "title", nullable = true)

@@ -29,7 +29,7 @@ public class BannerServiceImpl implements BannerService {
     @Override
     public ServiceResult createBanner(Banner banner) {
         bannerRepository.save(banner);
-        return new ServiceResult(bannerRepository.findAll(), ServiceResult.SUCCESS, Constant.ADD_SUCCESS);
+        return new ServiceResult(null, ServiceResult.SUCCESS, Constant.ADD_SUCCESS);
     }
 
     @Override
@@ -50,5 +50,13 @@ public class BannerServiceImpl implements BannerService {
         }
         bannerRepository.deleteById(id);
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);
+    }
+
+    @Override
+    public ServiceResult getOneBanner(Long id) throws NotFoundException {
+        if (!bannerRepository.existsById(id)) {
+            throw new NotFoundException(Constant.BANNER_NOT_FOUND);
+        }
+        return new ServiceResult(bannerRepository.findById(id).get(), ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);
     }
 }

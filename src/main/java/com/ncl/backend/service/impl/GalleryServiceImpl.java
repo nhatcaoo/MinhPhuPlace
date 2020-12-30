@@ -15,10 +15,12 @@ public class GalleryServiceImpl implements GalleryService {
     @Autowired
     GalleryRepository galleryRepository;
     @Override
-    public ServiceResult getAllPic() {
-        PageRequest pageRequest = PageRequest.of(0,6);
-
+    public ServiceResult getAllPic(Boolean isLimit) {
+        int size = 6;
+        if(!isLimit) size = Integer.MAX_VALUE;
+        PageRequest pageRequest = PageRequest.of(0,size);
         return new ServiceResult(galleryRepository.findAll(pageRequest), ServiceResult.SUCCESS, Constant.EMPTY);
+
     }
 
     @Override

@@ -68,8 +68,8 @@ public class MailServiceImpl implements MailService {
         *Attach File Method
         *
         *
-        FileSystemResource file
-                = new FileSystemResource(new File(pathToAttachment));
+                = new FileSystemRes
+        FileSystemResource fileource(new File(pathToAttachment));
         helper.addAttachment("Invoice", file);
         */
 

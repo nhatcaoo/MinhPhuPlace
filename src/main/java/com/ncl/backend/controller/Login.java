@@ -25,7 +25,7 @@ public class Login {
     @PostMapping("/admin/change-password")
     public ResponseEntity<ServiceResult> changePassword(
             @RequestBody LoginModel loginModel) throws NotFoundException {
-        logger.info("login");
+        logger.info("changePasss");
         return new ResponseEntity(loginService.changePassword(loginModel), HttpStatus.OK);
     }
 
