@@ -29,6 +29,6 @@ public class ContactServiceImpl implements ContactService {
         if (!contactRepository.existsById(1L)) {
             throw new NotFoundException("Không tìm thấy thông tin liên hệ nào");
         }
-        return new ServiceResult(contactRepository.findById(1L).get(), ServiceResult.SUCCESS, Constant.EDIT_SUCCESS);
+        return new ServiceResult(contactRepository.findById(1L).get(), ServiceResult.SUCCESS, "");
     }
 }

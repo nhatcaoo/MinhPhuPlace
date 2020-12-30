@@ -15,6 +15,7 @@ public class PostServiceDTO {
     private String shortDescription;
     private String type;
     private String coverImg;
+    private String name;
     public PostServiceDTO(Post post, String coverImg){
         this.id = post.getId();
         this.brief = post.getBrief();
@@ -22,5 +23,6 @@ public class PostServiceDTO {
         this.title = post.getTitle();
         this.type = post.getType();
         this.coverImg = coverImg;
+        this.name = post.getName();
     }
 }

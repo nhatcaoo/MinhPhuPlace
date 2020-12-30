@@ -57,6 +57,6 @@ public class BannerServiceImpl implements BannerService {
         if (!bannerRepository.existsById(id)) {
             throw new NotFoundException(Constant.BANNER_NOT_FOUND);
         }
-        return new ServiceResult(bannerRepository.findById(id).get(), ServiceResult.SUCCESS, Constant.DELETE_SUCCESS);
+        return new ServiceResult(bannerRepository.findById(id).get(), ServiceResult.SUCCESS, "");
     }
 }

@@ -17,6 +17,9 @@ public class Contact implements Serializable {
     @Column(name = "insta")
     private String insta;
 
+    @Column(name = "address")
+    private String address;
+
     @Column(name = "facebook")
     private String facebook;
 

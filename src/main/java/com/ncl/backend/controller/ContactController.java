@@ -17,7 +17,7 @@ public class ContactController {
     ContactService contactService;
     @ResponseBody
     @PutMapping("/admin/edit-contact") //post get put delete
-    public ResponseEntity editPreface(@RequestBody Contact contact) throws NotFoundException {
+    public ResponseEntity editContact(@RequestBody Contact contact) throws NotFoundException {
         return new ResponseEntity(contactService.editContact(contact), HttpStatus.OK);
     }
     @ResponseBody

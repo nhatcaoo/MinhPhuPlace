@@ -22,6 +22,9 @@ public class Post implements Serializable {
     @Column(name = "title", nullable = true)
     private String title;
 
+    @Column(name = "name", nullable = true)
+    private String name;
+
     @Column(name = "brief", nullable = true, columnDefinition = "TEXT")
     private String brief;
 

@@ -5,7 +5,7 @@ import com.ncl.backend.entity.Account;
 import com.ncl.backend.exception.ExistedException;
 import com.ncl.backend.exception.NotFoundException;
 import com.ncl.backend.jwt.SecurityConfiguration;
-import com.ncl.backend.model.LoginModel;
+import com.ncl.backend.model.CustomUserDetail;
 import com.ncl.backend.model.ServiceResult;
 import com.ncl.backend.model.TokenObject;
 import com.ncl.backend.repository.AccountRepository;
@@ -20,7 +20,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,11 +35,17 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private SecurityConfiguration securityConfiguration;
     @Override
-    public ServiceResult changePassword(LoginModel loginModel) throws NotFoundException {
-        if (!accountRepository.existsById(loginModel.getId()))
+    public ServiceResult changePassword(Authentication auth, String newPassword, String oldPassword) throws NotFoundException {
+       CustomUserDetail customUserDetail = (CustomUserDetail) auth.getPrincipal();
+       Long id = customUserDetail.getUser().getId();
+       if(!securityConfiguration.passwordEncoder().matches(oldPassword, customUserDetail.getPassword()))
+           return new ServiceResult(null, ServiceResult.FAIL, "Mật khẩu không đúng");
+
+        if (!accountRepository.existsById(id))
             throw new NotFoundException(Constant.ACCOUNT_NOT_FOUND);
-        Account account = accountRepository.findById(loginModel.getId()).get();
-        account.setPassword(securityConfiguration.passwordEncoder().encode(loginModel.getPassword()));
+        Account account = accountRepository.findById(id).get();
+        account.setPassword(securityConfiguration.passwordEncoder().encode(newPassword));
+        accountRepository.save(account);
         return new ServiceResult(null, ServiceResult.SUCCESS, Constant.ACCOUNT_CHANGE_SUCCESSFUL);
     }
 
