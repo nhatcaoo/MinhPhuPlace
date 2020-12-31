@@ -3,6 +3,7 @@ package com.ncl.backend.controller;
 import com.ncl.backend.entity.Account;
 import com.ncl.backend.exception.ExistedException;
 import com.ncl.backend.exception.NotFoundException;
+import com.ncl.backend.model.ChangePasswordModel;
 import com.ncl.backend.model.CustomUserDetail;
 import com.ncl.backend.model.LoginModel;
 import com.ncl.backend.model.ServiceResult;
@@ -27,14 +28,13 @@ public class Login {
     private LoginService loginService;
 
     @PostMapping("/admin/change-password")
-    public ResponseEntity<ServiceResult> changePassword(@RequestParam(name="old_password") String oldPassword,
-                                                        @RequestParam(name="new_password") String newPassword) throws NotFoundException {
+    public ResponseEntity<ServiceResult> changePassword(@RequestBody ChangePasswordModel changePasswordModel) throws NotFoundException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
      // account.getUsername()
        // Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         logger.info("changePasss");
-        return new ResponseEntity(loginService.changePassword(auth, newPassword, oldPassword), HttpStatus.OK);
+        return new ResponseEntity(loginService.changePassword(auth, changePasswordModel.getNewPassword(), changePasswordModel.getOldPassword()), HttpStatus.OK);
     }
 
     @PostMapping("/login")
