@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,19 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public ServiceResult getAllRoom() {
         List<Room> roomList = roomRepository.findAll();
-        return new ServiceResult(roomList, ServiceResult.SUCCESS, Constant.EMPTY);
+        List<RoomDto> roomDtoList = new ArrayList<>();
+
+        for(Room r:roomList){
+            RoomDto roomDto = new RoomDto();
+            RoomImage ri = roomImageRepository.findFirstByRoomId(r.getId());
+            roomDto.setRoom(r);
+            if(ri!=null)
+            {
+                roomDto.setImage(ri.getImg());
+            }
+            roomDtoList.add(roomDto);
+        }
+        return new ServiceResult(roomDtoList, ServiceResult.SUCCESS, Constant.EMPTY);
     }
 
     @Override
