@@ -25,4 +25,8 @@ public class PostServiceDTO {
         this.coverImg = coverImg;
         this.name = post.getName();
     }
+    public PostServiceDTO(Post post){
+        this.id = post.getId();
+        this.name = post.getName();
+    }
 }

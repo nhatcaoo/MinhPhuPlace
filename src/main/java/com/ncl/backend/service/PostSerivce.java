@@ -9,6 +9,7 @@ import com.ncl.backend.model.ServiceResult;
 public interface PostSerivce {
     ServiceResult getAllServicePost();
     ServiceResult getHomepageServicePost();
+    ServiceResult getHomepageServicePostOnePic();
     ServiceResult getOnePost(Long id) throws NotFoundException;
     ServiceResult createPost(PostCreatedModel postCreatedModel) throws NullObjectException;
     ServiceResult editPost(PostCreatedModel postCreatedModel) throws NotFoundException;

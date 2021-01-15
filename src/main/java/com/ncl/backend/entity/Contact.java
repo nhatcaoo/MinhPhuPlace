@@ -32,6 +32,6 @@ public class Contact implements Serializable {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "address_img")
+    @Column(name = "address_img", length = 1000000)
     private String addressImg;
 }

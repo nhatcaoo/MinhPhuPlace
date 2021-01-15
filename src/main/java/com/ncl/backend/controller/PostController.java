@@ -29,6 +29,7 @@ public class PostController {
         return new ResponseEntity(postSerivce.getOnePost(id), HttpStatus.OK);
     }
 
+
     @ResponseBody
     @PostMapping("/admin/create-post") //post get put delete
     public ResponseEntity createPost(@RequestBody PostCreatedModel post) throws NullObjectException {
@@ -65,6 +66,11 @@ public class PostController {
     @GetMapping("/all/get-all-homepage-service") //post get put delete
     public ResponseEntity getAllHomepageService() {
         return new ResponseEntity(postSerivce.getHomepageServicePost(), HttpStatus.OK);
+    }
+    @ResponseBody
+    @GetMapping("/all/get-all-homepage-service-v2") //post get put delete
+    public ResponseEntity getHomepageService() {
+        return new ResponseEntity(postSerivce.getHomepageServicePostOnePic(), HttpStatus.OK);
     }
     @ResponseBody
     @GetMapping("/all/get-minor-service") //post get put delete

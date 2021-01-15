@@ -29,13 +29,34 @@ public class PostSerivceImpl implements PostSerivce {
     @Override
     public ServiceResult getAllServicePost() {
         List<Post> postList = postRepository.findAllByTypeContains(Constant.SERVICE);
-        return getServiceResult(postList);
+        List<PostServiceDTO> postServiceDTOList = new ArrayList<>();
+        for (Post p : postList) {
+            PostServiceDTO postReturned = new PostServiceDTO(p);
+            postServiceDTOList.add(postReturned);
+        }
+        return new ServiceResult(postServiceDTOList, ServiceResult.SUCCESS, "");
     }
 
     @Override
     public ServiceResult getHomepageServicePost() {
         List<Post> postList = postRepository.findAllByTypeContains(Constant.POST_HOMEPAGE_SERVICE);
         return getServiceResult(postList);
+    }
+
+    @Override
+    public ServiceResult getHomepageServicePostOnePic() {
+        List<Post> postList = postRepository.findAllByTypeContains(Constant.POST_HOMEPAGE_SERVICE);
+        List<PostServiceDTO> postServiceDTOList = new ArrayList<>();
+        for (Post p : postList) {
+            String img = Constant.EMPTY;
+            PostImage postImage = postImageRepository.findByPostIdAndType(p.getId(), Constant.COVER_IMAGE);
+            if (postImage != null)
+                img = postImage.getImg();
+
+            PostServiceDTO postReturned = new PostServiceDTO(p, img);
+            postServiceDTOList.add(postReturned);
+        }
+        return new ServiceResult(postServiceDTOList, ServiceResult.SUCCESS, Constant.EMPTY);
     }
 
     @Override
